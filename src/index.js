@@ -1,8 +1,11 @@
 import express from 'express';
+import cors from 'cors';
 // criação do app api servidor
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.get('/', (req, res) => {
    
@@ -38,12 +41,12 @@ const emailExiste = listaUsuarios.some((user) => user.email === dados.email);
             message: 'O campo senha é obrigatorio',
         })    
     }    
-    if(!dados.nome){
-        return res.status(400).json({
-            success: false,
-            message: 'O campo nome é obrigatorio',
-        })    
-    }    
+    // if(!dados.nome){
+    //     return res.status(400).json({
+    //         success: false,
+    //         message: 'O campo nome é obrigatorio',
+    //     })    
+    // }    
     if(!dados.email.includes('@') || !dados.email.includes('.')){
         return res.status(400).json({
             success: false,
@@ -54,13 +57,13 @@ const emailExiste = listaUsuarios.some((user) => user.email === dados.email);
         return res.status(400).json({
             sucesso: false,
             dados: null,
-            mensagem: "É obrigatório informar a senha para cadastro do usuário com no mínimo 6 caracteres"
+            message: "É obrigatório informar a senha para cadastro do usuário com no mínimo 6 caracteres"
         })
     }
 
     const novoUsuario = {
-        id: new Date().getTime(),
-        nome: dados.nome,
+        // id: new Date().getTime(),
+        // nome: dados.nome,
         email: dados.email,
         senha: dados.senha,
         logado: false,
@@ -71,7 +74,7 @@ const emailExiste = listaUsuarios.some((user) => user.email === dados.email);
     return res.status(201).json({
         success: true,
         message: 'Usuario criado com sucesso',
-        data: novoUsuario
+        data: novoUsuario.email
     });
 });
 
